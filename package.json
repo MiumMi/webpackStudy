@@ -1,0 +1,27 @@
+{
+  "name": "webpackstudy",
+  "version": "1.0.0",
+  "description": "a project used to study webpack",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MiumMi/webpackStudy.git"
+  },
+  "author": "wwq",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MiumMi/webpackStudy/issues"
+  },
+  "homepage": "https://github.com/MiumMi/webpackStudy#readme",
+  "devDependencies": {
+    "webpack": "^4.16.2",
+    "webpack-cli": "^3.1.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.10"
+  }
+}
