@@ -1,15 +1,32 @@
-const express = require('express');
-const webpack = require('webpack');
-const webpackDevMiddleware = require('webpack-dev-middleware');
+// const express = require('express');
+// const webpack = require('webpack');
+// const webpackDevMiddleware = require('webpack-dev-middleware');
 
-const app = express();
+// const app = express();
+// const config = require('./webpack.config.js')
+// const compiler = webpack(config);
+
+// app.use(webpackDevMiddleware(compiler, {
+//   publicPath: config.output.publicPath
+// }))
+
+// app.listen(3880, function() {
+//   console.log('example app listening on port 3000!\n')
+// })
+const webpackDevServer = require('webpack-dev-server')
+const webpack = require('webpack')
+
 const config = require('./webpack.config.js')
-const compile = webpack(config);
+const options = {
+  contentBase: './dist',
+  hot: true,
+  host: 'localhost'
+}
 
-app.use(webpackDevMiddleware(compile, {
-  publicPath: config.output.publicPath
-}))
+webpackDevServer.addDevServerEntrypoints(config, options)
+const compiler = webpack(config)
+const server = new webpackDevServer(compiler, options)
 
-app.listen(3000, function() {
-  console.log('example app listening on port 3000!\n')
+server.listen(5000, 'localhost', () => {
+  console.log('dev server listening on port 5000')
 })

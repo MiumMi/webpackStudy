@@ -1,11 +1,12 @@
 {
   "name": "webpackstudy",
+  "sideEffects": false,
   "version": "1.0.0",
   "description": "a project used to study webpack",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --open",
+    "start": "webpack-dev-server --hotOnly",
     "watch": "webpack --watch",
     "server": "node server.js",
     "build": "webpack"
