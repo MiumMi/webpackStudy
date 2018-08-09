@@ -1,34 +1,38 @@
-const path = require('path');
+var path = require('path');
+const webpack = require('webpack');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    app: './src/index.js'
+    index: './src/index.js',
+    polyfills: './src/polyfills.js'
   },
-  devtool: 'inline-source-map',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].bundle.js'
+  },
+  module: {
+    rules: [
+      {
+        test: require.resolve('./src/index.js'),
+        use: 'imports-loader?this=>window'
+      },
+      {
+        test: require.resolve('./src/globals.js'),
+        use: 'exports-loader?file,parse=helpers.parse'
+      }
+    ]
+  },
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      title: 'caching'
+      title: 'web application'
     }),
-    new webpack.HashedModuleIdsPlugin()
-  ],
-  output: {
-    filename: '[name].[chunkhash].js',
-    path: path.resolve(__dirname, 'dist')
-  },
-  optimization: {
-    runtimeChunk: 'single',
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all'
-        }
-      }
-    }
-  }
+    new WorkboxPlugin.GenerateSW({
+      clientsClaim: true,
+      skipWaiting: true
+    })
+  ]
 }
