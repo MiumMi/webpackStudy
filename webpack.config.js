@@ -5,23 +5,30 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    app: './src/index.js',
-    another: './src/another-module.js'
+    app: './src/index.js'
   },
   devtool: 'inline-source-map',
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      title: 'output management'
-    })
+      title: 'caching'
+    }),
+    new webpack.HashedModuleIdsPlugin()
   ],
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].[chunkhash].js',
     path: path.resolve(__dirname, 'dist')
   },
   optimization: {
+    runtimeChunk: 'single',
     splitChunks: {
-      chunks: 'all'
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
     }
   }
 }
